@@ -1,20 +1,27 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
+from dotenv import load_dotenv
+import os
 import sqlite3
 from datetime import datetime
 
-GUILD_ID = 1370498801017815151  # Replace with your server ID
-STAFF_ROLE_ID = 1370504397267927110  # Staff role ID
+# Load token from .env file
+load_dotenv()
+TOKEN = os.getenv("DISCORD_TOKEN")
+
+GUILD_ID = 123456789012345678  # Replace with your server's ID
+STAFF_ROLE_ID = 1370504397267927110  # Role ID allowed to manage flights
 
 intents = discord.Intents.default()
 intents.message_content = True
-bot = commands.Bot(command_prefix="/", intents=intents)
+bot = commands.Bot(command_prefix="!", intents=intents)
 
+# Connect to SQLite database
 conn = sqlite3.connect("hifly.db")
 cursor = conn.cursor()
 
-# Ensure tables exist
+# Create necessary tables if they don't exist
 cursor.execute("""CREATE TABLE IF NOT EXISTS flights (
     code TEXT PRIMARY KEY,
     origin TEXT,
@@ -64,9 +71,9 @@ async def flights(interaction: discord.Interaction):
     if not flights:
         await interaction.response.send_message("No flights available.")
         return
-    msg = "**Active Flights:**\n"
+    msg = "**Active Flights:**\\n"
     for f in flights:
-        msg += f"`{f[0]}`: {f[1]} -> {f[2]} at {f[3]}\n"
+        msg += f"`{f[0]}`: {f[1]} -> {f[2]} at {f[3]}\\n"
     await interaction.response.send_message(msg)
 
 @bot.tree.command(name="flight_log", description="Log a flight", guild=discord.Object(id=GUILD_ID))
@@ -84,9 +91,11 @@ async def my_logs(interaction: discord.Interaction):
     if not logs:
         await interaction.response.send_message("No logs found.")
         return
-    msg = "**Your Flight Logs:**\n"
+    msg = "**Your Flight Logs:**\\n"
     for log in logs:
-        msg += f"{log[0]} at {log[1]}\n"
+        msg += f"{log[0]} at {log[1]}\\n"
     await interaction.response.send_message(msg)
 
-bot.run("MTM3MDcwMDU2MTk4MDA2NzkwMA.Gs6mZa.0ZOwo98CFhD0-iszAt2v3LdKn3gkTghZEraFvA")
+# Start bot using token from .env
+bot.run(TOKEN)
+
