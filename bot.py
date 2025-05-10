@@ -15,7 +15,7 @@ STAFF_ROLE_ID = 1370504397267927110  # Role ID allowed to manage flights
 
 intents = discord.Intents.default()
 intents.message_content = True
-bot = commands.Bot(command_prefix="!", intents=intents)
+bot = commands.Bot(command_prefix="/", intents=intents)
 
 # Connect to SQLite database
 conn = sqlite3.connect("hifly.db")
