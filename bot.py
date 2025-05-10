@@ -89,4 +89,4 @@ async def my_logs(interaction: discord.Interaction):
         msg += f"{log[0]} at {log[1]}\n"
     await interaction.response.send_message(msg)
 
-bot.run('MTM3MDcwMDU2MTk4MDA2NzkwMA.Gs6mZa.0ZOwo98CFhD0-iszAt2v3LdKn3gkTghZEraFvA')
+bot.run("MTM3MDcwMDU2MTk4MDA2NzkwMA.Gs6mZa.0ZOwo98CFhD0-iszAt2v3LdKn3gkTghZEraFvA")
